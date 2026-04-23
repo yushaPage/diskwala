@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #151a28;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .box {
+      background: #1f2638;
+      border-radius: 5vmin;
+      width: 70vmin;
+      min-height: 20vmin;
+      text-align: center;
+      padding: 3vmin;
+    }
+
+    .box h2 {
+      font-size: 5vmin;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    input {
+      width: 60vmin;
+      padding: 2vmin;
+      padding-right: 6vmin;
+      border-radius: 2vmin;
+      border: none;
+      margin-bottom: 3vmin;
+      outline: none;
+      font-size: 3vmin;
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: -4vmin;
+      top: 45%;
+      transform: translateY(-65%);
+      background: transparent;
+      border: none;
+      color: #888;
+      font-size: 3vmin;
+      cursor: pointer;
+    }
+    .clear-btn:hover {
+      color: #aaa; /* subtle change only */
+      background: transparent;
+    }
+
+    button {
+      width: 20vmin;
+      padding: 2vmin;
+      border-radius: 2vmin;
+      border: none;
+      background: #6c5ce7;
+      color: white;
+      cursor: pointer;
+      font-size: 3vmin;
+      margin-bottom: 3vmin;
+    }
+
+    button:hover {
+      background: #5a4bd6;
+    }
+
+    .output {
+      margin: 3vmin;
+      word-break: break-all;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .copied {
+      color: #00ffae;
+      font-size: 2.5vmin;
+      margin-top: 1vmin;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Diskwala URL Converter</h2>
+
+  <div class="input-wrapper">
+    <input type="text" id="inputUrl" placeholder="Paste Diskwala URL here">
+    <button class="clear-btn" onclick="clearInput()">✖</button>
+  </div>
+
+  <button onclick="convertUrl()">Convert</button>
+
+  <div class="output" id="result" onclick="copyResult()"></div>
+  <div class="copied" id="copiedMsg"></div>
+</div>
+
+<script>
+  let currentUrl = "";
+
+  function convertUrl() {
+    const input = document.getElementById("inputUrl").value.trim();
+
+    const regex = /^https:\/\/www\.diskwala\.com\/app\/([a-zA-Z0-9]+)$/;
+    const match = input.match(regex);
+
+    if (match) {
+      const key = match[1];
+      const newUrl = "https://yushapage.github.io/Open/test/?key=" + key;
+
+      currentUrl = newUrl;
+
+      document.getElementById("result").innerText = newUrl;
+      document.getElementById("copiedMsg").innerText = "";
+    } else {
+      currentUrl = "";
+      document.getElementById("result").innerText =
+        "Invalid format! Use: https://www.diskwala.com/app/KEY";
+      document.getElementById("copiedMsg").innerText = "";
+    }
+  }
+
+  function copyResult() {
+    if (!currentUrl) return;
+
+    navigator.clipboard.writeText(currentUrl).then(() => {
+      document.getElementById("copiedMsg").innerText = "Copied!";
+    });
+  }
+
+  function clearInput() {
+    document.getElementById("inputUrl").value = "";
+    document.getElementById("result").innerText = "";
+    document.getElementById("copiedMsg").innerText = "";
+    currentUrl = "";
+  }
+</script>
+
+</body>
+</html>
